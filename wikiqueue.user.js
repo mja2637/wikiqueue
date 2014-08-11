@@ -3,7 +3,6 @@
 // @namespace	malioto
 // @description	Wiki link queuing system. Keep yourself distracted.
 // @match		http://*/*
-// @resource	icon https://cdn1.iconfinder.com/data/icons/socialmediaicons_v120/24/wikipedia.png
 // @updateURL	https://github.com/mja2637/wikiqueue/wikiqueue.meta.js
 // @version		0.1
 // ==/UserScript==
@@ -20,12 +19,16 @@ var queue_icon_adder = function($, window, document) {
         return (link.match(localWikiLinkRegex) || link.match(wikiLinkRegex));
     }
 
+    function add_link_to_queue(link) {
+    	// Add this link to our cookie queue
+    }
+
 	var init = function() {
        	$.each($('a'), function(i, ele) {
        		var href = $(ele).attr('href');
        		if (href && is_wiki_link(href)) {
-   	        	alert('<img src="' + GM_getResourceURL('icon') + '" />');
-   	        	$('<img src="' + GM_getResourceURL('icon') + '" />').insertAfter($(ele));
+   				// Chrome
+   				$(ele).before('<button onclick="add_link_to_queue()">(wQ)</button> ');
        		}
    	    });
    	};
@@ -33,13 +36,4 @@ var queue_icon_adder = function($, window, document) {
    init();
 };
 
-var init = function(window) {
-    //var document = window.document;
-    $(document).ready(function() {
-        new queue_icon_adder(jQuery, window, document);
-    });
-};
-
-
-var oWindow = this['unsafeWindow'] || window;
-init();
+new queue_icon_adder(jQuery, window, document);
